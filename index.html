@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>my tasks</title>
+    <link rel="stylesheet" type="text/css" href="css/libs/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/libs/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+</head>
+<body>
+
+    <script type="text/template" id="tasks">
+        
+        <div class="tasks">
+            <h4><%= currentDate %></h4>
+            <ol class="tasks__list list-unstyled-">
+                <% if ( tasks && tasks.length ) { %>
+                    <% _.each(tasks, function(task){ %>
+                        <% include #item %>
+                    <% }) %>
+                <% } %>
+            </ol>
+            <p class="tasks__textarea-container">
+                <textarea class="tasks__textarea form-control" placeholder="Задача" x-webkit-speech></textarea>
+                <input class="tasks__textarea-speech" x-webkit-speech>
+            </p>
+            <p>
+                <div class="btn-group">
+                    <button class="tasks__add-day btn btn-primary">
+                        <i class="glyphicon glyphicon-plus"></i>&nbsp;
+                        Новый день
+                    </button>
+                    <button class="tasks__calendar-show btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        &nbsp;<i class="glyphicon glyphicon-calendar"></i>&nbsp;
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            Календарь
+                        </li>
+                    </ul>
+                </div>
+            </p>
+            <p class="tasks__history">
+                <a>История</a>
+            </p>
+        </div>
+        
+    </script>
+
+
+    <script type="text/template" id="item">
+         <li class="tasks__item" data-id="<%= task.id %>" data-start="<%= task.start %>" <%= task.finish ? 'data-finish=' + task.finish : '' %>>
+            <ul class="tasks__status">
+                <li class="tasks__status-item tasks__status-item_new <%= task.status == 'new' ? '' : 'g-hidden' %>" data-status="new">
+                    <i class="glyphicon glyphicon-time"></i>
+                </li>
+                <li class="tasks__status-item tasks__status-item_finished <%= task.status == 'finished' ? '' : 'g-hidden' %>" data-status="finished">
+                    <i class="glyphicon glyphicon-ok text-success"></i>
+                </li>
+                <li class="tasks__status-item tasks__status-item_incomplete <%= task.status == 'incomplete' ? '' : 'g-hidden' %>" data-status="incomplete">
+                    <i class="glyphicon glyphicon-warning-sign text-warning"></i>
+                </li>
+                <li class="tasks__status-item tasks__status-item_unfinished <%= task.status == 'unfinished' ? '' : 'g-hidden' %>" data-status="unfinished">
+                    <i class="glyphicon glyphicon-ban-circle text-danger"></i>
+                </li>
+            </ul>
+
+            <span class="tasks__text"><%= task.text %></span>
+            <span class="tasks__edit">
+                <i class="glyphicon glyphicon-pencil"></i>
+            </span>
+            <span class="tasks__remove">
+                <i class="glyphicon glyphicon-remove"></i>
+            </span>
+        </li>
+    </script>
+
+    
+    <script src="js/libs/jquery-2.0.3.min.js"></script>
+    <script src="js/libs/underscore-min.js"></script>
+    <script src="js/libs/bootstrap.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        var app = new Tasks("body", {
+            container: "#tasks",
+            item: "#item"
+        });
+        app.initialize();
+    </script>
+
+</body>
+</html>
